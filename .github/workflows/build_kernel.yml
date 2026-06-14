@@ -55,23 +55,21 @@ jobs:
 
       - name: Fix Missing Proprietary Kconfig Files
         run: |
-          # Force remove kernel/sched_assist (could be file, symlink, or dir) then recreate
-          rm -rf kernel/sched_assist
-          mkdir -p kernel/sched_assist
-          echo "# Stub for OPlus sched_assist (not in public source)" > kernel/sched_assist/Kconfig
-
-          # Scan ALL Kconfig files in the entire source tree and stub any missing ones
-          # This catches all proprietary OPlus/Realme Kconfig references in one pass
-          find . -name "Kconfig*" -not -path "./.git/*" | while read kfile; do
-            grep -oP '(?<=source ")([^"]+)' "$kfile" 2>/dev/null | while read ref; do
+          # Scan ALL Kconfig files and stub any missing source references
+          # Use process substitution to avoid broken pipe issues
+          while IFS= read -r kfile; do
+            while IFS= read -r ref; do
+              [ -z "$ref" ] && continue
               if [ ! -f "$ref" ]; then
-                echo "Stubbing missing Kconfig: $ref"
-                rm -rf "$ref"
-                mkdir -p "$(dirname $ref)"
+                echo "Stubbing: $ref"
+                parent="$(dirname "$ref")"
+                # Remove whatever is blocking the path (file or wrong-type entry)
+                rm -rf "$parent"
+                mkdir -p "$parent"
                 echo "# Stub Kconfig" > "$ref"
               fi
-            done
-          done
+            done < <(grep -oP '(?<=source ")([^"]+)' "$kfile" 2>/dev/null)
+          done < <(find . -name "Kconfig*" -not -path "./.git/*" 2>/dev/null)
 
       - name: Build Kernel
         run: |
