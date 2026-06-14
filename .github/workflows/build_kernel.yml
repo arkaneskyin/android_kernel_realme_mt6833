@@ -55,17 +55,17 @@ jobs:
 
       - name: Fix Missing Proprietary Kconfig Files
         run: |
-          # Scan ALL Kconfig files and stub any missing source references
-          # Use process substitution to avoid broken pipe issues
           while IFS= read -r kfile; do
             while IFS= read -r ref; do
               [ -z "$ref" ] && continue
               if [ ! -f "$ref" ]; then
                 echo "Stubbing: $ref"
                 parent="$(dirname "$ref")"
-                # Remove whatever is blocking the path (file or wrong-type entry)
-                rm -rf "$parent"
-                mkdir -p "$parent"
+                # Only remove and recreate parent if it's not the current directory
+                if [ "$parent" != "." ]; then
+                  rm -rf "$parent"
+                  mkdir -p "$parent"
+                fi
                 echo "# Stub Kconfig" > "$ref"
               fi
             done < <(grep -oP '(?<=source ")([^"]+)' "$kfile" 2>/dev/null)
