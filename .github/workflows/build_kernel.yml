@@ -1,0 +1,81 @@
+name: Build Kernel with KernelSU
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    name: Build Kernel
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Build Environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y bc bison build-essential curl flex git gnupg gperf \
+            libssl-dev libelf-dev lzop rsync zip zlib1g-dev \
+            gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi
+
+      - name: Download Neutron Clang Toolchain
+        run: |
+          mkdir -p clang
+          cd clang
+          # Use Neutron Clang - proven reliable for Android MediaTek kernel builds
+          bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=latest
+          echo "$GITHUB_WORKSPACE/clang/bin" >> $GITHUB_PATH
+
+      - name: Verify Toolchain
+        run: |
+          clang --version
+          aarch64-linux-gnu-gcc --version
+
+      - name: Setup KernelSU (Manual Integration)
+        run: |
+          # Clone KernelSU directly into the drivers folder
+          git clone --depth=1 https://github.com/tiann/KernelSU drivers/kernelsu
+
+          # Patch drivers/Makefile to include KernelSU
+          if ! grep -q "kernelsu" drivers/Makefile; then
+            echo 'obj-$(CONFIG_KSU) += kernelsu/' >> drivers/Makefile
+          fi
+
+          # Patch drivers/Kconfig to include KernelSU's Kconfig
+          if ! grep -q "kernelsu" drivers/Kconfig; then
+            sed -i '/endmenu/i source "drivers/kernelsu/Kconfig"' drivers/Kconfig
+          fi
+
+          # Enable KernelSU in the defconfig
+          echo "CONFIG_KSU=y" >> arch/arm64/configs/cyllene_defconfig
+
+      - name: Build Kernel
+        run: |
+          set -x
+          make O=out ARCH=arm64 cyllene_defconfig
+
+          make O=out \
+            ARCH=arm64 \
+            CC=clang \
+            CLANG_TRIPLE=aarch64-linux-gnu- \
+            CROSS_COMPILE=aarch64-linux-gnu- \
+            CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+            LD=ld.lld \
+            AR=llvm-ar \
+            NM=llvm-nm \
+            OBJCOPY=llvm-objcopy \
+            OBJDUMP=llvm-objdump \
+            STRIP=llvm-strip \
+            LLVM=1 \
+            LLVM_IAS=1 \
+            -j$(nproc)
+
+      - name: Upload Image.gz
+        uses: actions/upload-artifact@v4
+        with:
+          name: KernelSU-Image-cyllene
+          path: out/arch/arm64/boot/Image.gz
