@@ -55,8 +55,8 @@ jobs:
 
       - name: Fix Missing Proprietary Kconfig Files
         run: |
-          # kernel/sched_assist may be a file, not a directory - handle both cases
-          [ -f kernel/sched_assist ] && rm -f kernel/sched_assist
+          # Force remove kernel/sched_assist (could be file, symlink, or dir) then recreate
+          rm -rf kernel/sched_assist
           mkdir -p kernel/sched_assist
           echo "# Stub for OPlus sched_assist (not in public source)" > kernel/sched_assist/Kconfig
 
@@ -64,7 +64,7 @@ jobs:
           for kconfig in $(grep -r "^source" init/Kconfig 2>/dev/null | grep -oP '"[^"]+"' | tr -d '"'); do
             if [ ! -f "$kconfig" ]; then
               echo "Stubbing missing: $kconfig"
-              [ -f "$(dirname $kconfig)" ] && rm -f "$(dirname $kconfig)"
+              rm -rf "$(dirname $kconfig)"
               mkdir -p "$(dirname $kconfig)"
               echo "# Stub Kconfig" > "$kconfig"
             fi
