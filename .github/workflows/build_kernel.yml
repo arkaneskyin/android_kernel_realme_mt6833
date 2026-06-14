@@ -60,14 +60,17 @@ jobs:
           mkdir -p kernel/sched_assist
           echo "# Stub for OPlus sched_assist (not in public source)" > kernel/sched_assist/Kconfig
 
-          # Auto-fix any other missing Kconfig files referenced in init/Kconfig
-          for kconfig in $(grep -r "^source" init/Kconfig 2>/dev/null | grep -oP '"[^"]+"' | tr -d '"'); do
-            if [ ! -f "$kconfig" ]; then
-              echo "Stubbing missing: $kconfig"
-              rm -rf "$(dirname $kconfig)"
-              mkdir -p "$(dirname $kconfig)"
-              echo "# Stub Kconfig" > "$kconfig"
-            fi
+          # Scan ALL Kconfig files in the entire source tree and stub any missing ones
+          # This catches all proprietary OPlus/Realme Kconfig references in one pass
+          find . -name "Kconfig*" -not -path "./.git/*" | while read kfile; do
+            grep -oP '(?<=source ")([^"]+)' "$kfile" 2>/dev/null | while read ref; do
+              if [ ! -f "$ref" ]; then
+                echo "Stubbing missing Kconfig: $ref"
+                rm -rf "$ref"
+                mkdir -p "$(dirname $ref)"
+                echo "# Stub Kconfig" > "$ref"
+              fi
+            done
           done
 
       - name: Build Kernel
