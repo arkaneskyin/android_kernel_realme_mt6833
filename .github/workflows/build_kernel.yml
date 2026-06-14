@@ -53,6 +53,23 @@ jobs:
           # Enable KernelSU in the defconfig
           echo "CONFIG_KSU=y" >> arch/arm64/configs/cyllene_defconfig
 
+      - name: Fix Missing Proprietary Kconfig Files
+        run: |
+          # Create stub Kconfig files for OPlus/Realme proprietary features
+          # that are referenced in init/Kconfig but not in the public source
+          mkdir -p kernel/sched_assist
+          if [ ! -f kernel/sched_assist/Kconfig ]; then
+            echo "# Stub for OPlus sched_assist (not included in public source)" > kernel/sched_assist/Kconfig
+          fi
+          # Create any other missing Kconfig stubs to prevent build failures
+          for kconfig in $(grep -r "^source" init/Kconfig kernel/Kconfig | grep -oP '"[^"]+"' | tr -d '"'); do
+            if [ ! -f "$kconfig" ]; then
+              echo "Creating stub for missing: $kconfig"
+              mkdir -p "$(dirname $kconfig)"
+              echo "# Stub Kconfig" > "$kconfig"
+            fi
+          done
+
       - name: Build Kernel
         run: |
           set -x
