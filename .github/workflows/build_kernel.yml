@@ -55,16 +55,16 @@ jobs:
 
       - name: Fix Missing Proprietary Kconfig Files
         run: |
-          # Create stub Kconfig files for OPlus/Realme proprietary features
-          # that are referenced in init/Kconfig but not in the public source
+          # kernel/sched_assist may be a file, not a directory - handle both cases
+          [ -f kernel/sched_assist ] && rm -f kernel/sched_assist
           mkdir -p kernel/sched_assist
-          if [ ! -f kernel/sched_assist/Kconfig ]; then
-            echo "# Stub for OPlus sched_assist (not included in public source)" > kernel/sched_assist/Kconfig
-          fi
-          # Create any other missing Kconfig stubs to prevent build failures
-          for kconfig in $(grep -r "^source" init/Kconfig kernel/Kconfig | grep -oP '"[^"]+"' | tr -d '"'); do
+          echo "# Stub for OPlus sched_assist (not in public source)" > kernel/sched_assist/Kconfig
+
+          # Auto-fix any other missing Kconfig files referenced in init/Kconfig
+          for kconfig in $(grep -r "^source" init/Kconfig 2>/dev/null | grep -oP '"[^"]+"' | tr -d '"'); do
             if [ ! -f "$kconfig" ]; then
-              echo "Creating stub for missing: $kconfig"
+              echo "Stubbing missing: $kconfig"
+              [ -f "$(dirname $kconfig)" ] && rm -f "$(dirname $kconfig)"
               mkdir -p "$(dirname $kconfig)"
               echo "# Stub Kconfig" > "$kconfig"
             fi
