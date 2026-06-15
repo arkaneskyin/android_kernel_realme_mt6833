@@ -1,4 +1,5 @@
-#undef OPLUS_FEATURE_PROCESS_RECLAIM /* Disable missing proprietary OPlus feature */
+
+#include <linux/proc_fs.h> /* Added missing standard include */
 // SPDX-License-Identifier: GPL-2.0
 /*
  *  linux/mm/vmscan.c
