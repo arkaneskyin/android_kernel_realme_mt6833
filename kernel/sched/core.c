@@ -893,6 +893,7 @@ unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
 {
 	struct uclamp_se uc_eff;
 	unsigned int uc_value;
+#ifdef OPLUS_FEATURE_SCHED_ASSIST
 	if (p->ux_state & SA_TYPE_TURBO && clamp_id == UCLAMP_MIN && sysctl_set_ux_uclamp_enable) {
 		uc_value = ux_uclamp_value;
 		if (p->uclamp[clamp_id].active) {
@@ -905,6 +906,7 @@ unsigned long uclamp_eff_value(struct task_struct *p, enum uclamp_id clamp_id)
 		}
 		return (unsigned long)uc_value;
 	}
+#endif /* OPLUS_FEATURE_SCHED_ASSIST */
 	/* Task currently refcounted: use back-annotated (effective) value */
 	if (p->uclamp[clamp_id].active)
 		return (unsigned long)p->uclamp[clamp_id].value;
