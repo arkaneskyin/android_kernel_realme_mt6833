@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_MULTI_FREEAREA /* Disable missing proprietary OPlus feature */
 /*
  *  linux/mm/vmstat.c
  *
