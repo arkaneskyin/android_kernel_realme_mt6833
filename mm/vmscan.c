@@ -1,5 +1,6 @@
 
-#include <linux/proc_fs.h> /* Added missing standard include */
+#undef OPLUS_FEATURE_PROCESS_RECLAIM
+#include <linux/proc_fs.h>
 // SPDX-License-Identifier: GPL-2.0
 /*
  *  linux/mm/vmscan.c
