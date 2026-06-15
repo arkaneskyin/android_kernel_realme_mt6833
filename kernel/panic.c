@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_PHOENIX /* Disable missing proprietary OPlus feature */
 /*
  *  linux/kernel/panic.c
  *
