@@ -23,7 +23,7 @@
 #include <trace/hooks/vh_vmscan.h>
 
 //#ifdef OPLUS_FEATURE_HEALTHINFO
-#include <linux/healthinfo/ion.h>
+// #include <linux/healthinfo/ion.h> // OPlus proprietary header missing
 //#endif /*OPLUS_FEATURE_HEALTHINFO*/
 
 #ifdef OPLUS_FEATURE_HEALTHINFO
