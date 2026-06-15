@@ -27,25 +27,25 @@ obj-y				+= xilinx/
 obj-$(CONFIG_ARCH_ZX)		+= zte/
 
 #ifdef OPLUS_FEATURE_LOWMEM_DBG
-obj-$(CONFIG_OPLUS_FEATURE_LOWMEM_DBG)	+=  oplus/lowmem_dbg/
+# obj-$(CONFIG_OPLUS_FEATURE_LOWMEM_DBG)	+=  oplus/lowmem_dbg/ # OPlus proprietary - not in public source
 #endif /* OPLUS_FEATURE_LOWMEM_DBG */
 
 #ifdef OPLUS_FEATURE_IOMONITOR
-obj-$(CONFIG_IOMONITOR)    +=  oplus/iomonitor/
+# obj-$(CONFIG_IOMONITOR)    +=  oplus/iomonitor/ # OPlus proprietary - not in public source
 #endif /*OPLUS_FEATURE_IOMONITOR*/
 
 #ifdef OPLUS_FEATURE_MEMLEAK_DETECT
 #Add for svelte
-obj-$(CONFIG_SVELTE)     +=  oplus/svelte/
+# obj-$(CONFIG_SVELTE)     +=  oplus/svelte/ # OPlus proprietary - not in public source
 #endif /* OPLUS_FEATURE_MEMLEAK_DETECT */
 
 #ifdef OPLUS_BUG_STABILITY
-obj-y += oplus/system/
+# obj-y += oplus/system/ # OPlus proprietary - not in public source
 #endif /* OPLUS_BUG_STABILITY */
 
 #ifdef OPLUS_FEATURE_TP_BASIC
 #Qicai.gu  12:00, 2020/06/03  devi info
-obj-y +=   oplus/device_info/
+# obj-y +=   oplus/device_info/ # OPlus proprietary - not in public source
 ##endif /* OPLUS_FEATURE_TP_BASIC */
 
 #ifdef OPLUS_FEATURE_HEALTHINFO
@@ -53,20 +53,20 @@ obj-y +=   oplus/device_info/
 #endif /* OPLUS_FEATURE_HEALTHINFO */
 
 #ifdef OPLUS_FEATURE_MIDAS
-obj-$(CONFIG_OPLUS_FEATURE_MIDAS)    += oplus/midas/
+# obj-$(CONFIG_OPLUS_FEATURE_MIDAS)    += oplus/midas/ # OPlus proprietary - not in public source
 #endif
 
 #ifdef OPLUS_BUG_STABILITY
-obj-y +=  oplus/oplus_custom/
+# obj-y +=  oplus/oplus_custom/ # OPlus proprietary - not in public source
 #endif /* OPLUS_BUG_STABILITY */
 
 # ifdef OPLUS_FEATURE_SENSOR 
-obj-$(CONFIG_OPLUS_ALS_CALI)   +=  oplus/oplus_als_cali_value/
+# obj-$(CONFIG_OPLUS_ALS_CALI)   +=  oplus/oplus_als_cali_value/ # OPlus proprietary - not in public source
 # endif /* OPLUS_FEATURE_SENSOR */
 
 #Add for NandSwap
-obj-$(CONFIG_NANDSWAP)		+= oplus/oplus_nandswap/
+# obj-$(CONFIG_NANDSWAP)		+= oplus/oplus_nandswap/ # OPlus proprietary - not in public source
 
 #ifdef OPLUS_FEATURE_MODEM_MINIDUMP
-obj-y += oplus/oplus_criticallog/
+# obj-y += oplus/oplus_criticallog/ # OPlus proprietary - not in public source
 #endif OPLUS_FEATURE_MODEM_MINIDUMP
