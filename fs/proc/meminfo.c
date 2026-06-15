@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_HEALTHINFO /* Disable missing proprietary OPlus feature */
 // SPDX-License-Identifier: GPL-2.0
 #include <linux/fs.h>
 #include <linux/init.h>
