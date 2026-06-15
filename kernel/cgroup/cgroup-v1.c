@@ -20,7 +20,7 @@
 #endif
 
 #ifdef OPLUS_FEATURE_SCHED_ASSIST
-#include <linux/sched_assist/sched_assist_common.h>
+// #include <linux/sched_assist/sched_assist_common.h> // OPlus proprietary header missing
 #endif
 /*
  * pidlists linger the following amount before being destroyed.  The goal
