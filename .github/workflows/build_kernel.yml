@@ -56,7 +56,7 @@ jobs:
       - name: Fix Missing Proprietary Kconfig Files
         run: |
           python3 << 'PYEOF'
-          import os, re, shutil
+          import os, re
 
           stub_content = "# Stub Kconfig - OPlus proprietary feature not in public source\n"
 
@@ -69,11 +69,13 @@ jobs:
                   try:
                       with open(kfile, 'r', errors='ignore') as f:
                           content = f.read()
-                      for ref in re.findall(r'source\s+"([^"]+)"', content):
+                      # Match both quoted: source "path" and unquoted: source path
+                      refs = re.findall(r'source\s+"([^"]+)"', content)
+                      refs += re.findall(r'source\s+([^"\s][^\s]*Kconfig[^\s]*)', content)
+                      for ref in refs:
                           if not os.path.isfile(ref):
                               print(f"Stubbing: {ref}")
                               parent = os.path.dirname(ref) or '.'
-                              # If parent path exists but is not a directory, remove it
                               if os.path.exists(parent) and not os.path.isdir(parent):
                                   os.remove(parent)
                               elif os.path.islink(parent):
