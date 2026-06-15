@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_SCHED_ASSIST /* Disable missing proprietary OPlus feature */
 /*
  * kernel/workqueue.c - generic async execution with shared worker pool
  *
