@@ -1,4 +1,3 @@
-#undef OPLUS_BUG_STABILITY /* Disable missing proprietary OPlus feature */
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
  * Copyright (c) 2019 MediaTek Inc.
@@ -14,7 +13,7 @@
 #include <drm/drmP.h>
 #include <linux/soc/mediatek/mtk-cmdq.h>
 #ifdef OPLUS_BUG_STABILITY
-#include <soc/oplus/system/oplus_mm_kevent_fb.h>
+// #include <soc/oplus/system/oplus_mm_kevent_fb.h>
 #endif
 
 #include "mtk_drm_ddp.h"
