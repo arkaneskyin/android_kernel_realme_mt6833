@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_SCHED_ASSIST /* Disable missing proprietary OPlus feature */
 /*
  * Copyright (c) 2016, The Linux Foundation. All rights reserved.
  *
