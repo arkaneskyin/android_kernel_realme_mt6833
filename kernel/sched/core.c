@@ -946,8 +946,10 @@ static inline void uclamp_rq_inc_id(struct rq *rq, struct task_struct *p,
 	uclamp_idle_reset(rq, clamp_id, uc_se->value);
 
 	tmp_value = uc_se->value;
+#ifdef OPLUS_FEATURE_SCHED_ASSIST
 	if (p->ux_state & SA_TYPE_TURBO && clamp_id == UCLAMP_MIN && sysctl_set_ux_uclamp_enable)
 		tmp_value = ux_uclamp_value;
+#endif /* OPLUS_FEATURE_SCHED_ASSIST */
 
 	/*
 	 * Local max aggregation: rq buckets always track the max
