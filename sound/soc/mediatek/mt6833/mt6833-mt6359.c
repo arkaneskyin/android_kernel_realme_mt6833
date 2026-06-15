@@ -1,3 +1,6 @@
+#undef OPLUS_BUG_COMPATIBILITY
+#undef CONFIG_SND_SOC_OPLUS_PA_MANAGER
+#undef CONFIG_SND_SOC_SIA8109
 // SPDX-License-Identifier: GPL-2.0
 /*
  *  mt6833-mt6359.c  --  mt6833 mt6359 ALSA SoC machine driver
