@@ -7,5 +7,7 @@
 #define FACTORY 4
 
 static inline int get_eng_version(void) { return 0; }
+static inline int get_project(void) { return 0; }
+static inline int get_Operator_Version(void) { return 0; }
 
 #endif
