@@ -7782,7 +7782,7 @@ static int find_energy_efficient_cpu(struct task_struct *p, int prev_cpu, int sy
 	struct sched_domain *sd;
 	cpumask_t *candidates;
 
-	if (sysctl_sched_sync_hint_enable && sync && !is_heavy_ux_task(p)) {
+	if (sysctl_sched_sync_hint_enable && sync && 1 /* OPlus check removed */) {
 		cpu = smp_processor_id();
 		if (cpumask_test_cpu(cpu, &p->cpus_allowed) &&
 			!cpu_isolated(cpu))
