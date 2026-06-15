@@ -100,4 +100,4 @@ obj-$(CONFIG_OPLUS_FEATURE_WIFI_SLA)                  	+= oplus_connectivity_sla
 obj-$(CONFIG_OPLUS_FEATURE_DATA_EVAL) += oplus_score/
 #endif /* OPLUS_FEATURE_DATA_EVAL */
 
-obj-y                           += oplus_modules/
+# obj-y                           += oplus_modules/ # OPlus proprietary - not in public source
