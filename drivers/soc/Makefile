@@ -49,7 +49,7 @@ obj-y +=   oplus/device_info/
 ##endif /* OPLUS_FEATURE_TP_BASIC */
 
 #ifdef OPLUS_FEATURE_HEALTHINFO
-obj-y  +=  oplus/healthinfo/
+# obj-y  +=  oplus/healthinfo/ # OPlus proprietary - not in public source
 #endif /* OPLUS_FEATURE_HEALTHINFO */
 
 #ifdef OPLUS_FEATURE_MIDAS
