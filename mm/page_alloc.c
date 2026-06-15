@@ -80,7 +80,7 @@
 #endif /*OPLUS_FEATURE_HEALTHINFO*/
 
 #if defined(OPLUS_FEATURE_MULTI_FREEAREA) && defined(CONFIG_PHYSICAL_ANTI_FRAGMENTATION)
-#include "multi_freearea.h"
+// #include "multi_freearea.h" // OPlus proprietary header missing
 #endif
 
 #if defined(CONFIG_DMAUSER_PAGES)
