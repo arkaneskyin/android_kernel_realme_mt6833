@@ -1,3 +1,5 @@
+#undef OPLUS_FEATURE_SCHED_ASSIST
+#undef OPLUS_BUG_STABILITY
 /*
  *  linux/kernel/signal.c
  *
@@ -1057,7 +1059,7 @@ static void complete_signal(int sig, struct task_struct *p, enum pid_type type)
 			signal->group_stop_count = 0;
 			t = p;
 			//ifdef OPLUS_BUG_STABILITY
-			bool is_key = is_key_process(t);
+			bool is_key = 0 /* is_key_process removed */;
 			do {
 				if (is_key) {
 					is_key = false;
@@ -1078,7 +1080,7 @@ static void complete_signal(int sig, struct task_struct *p, enum pid_type type)
 	 * Tell the chosen thread to wake up and dequeue it.
 	 */
 	 //ifdef OPLUS_BUG_STABILITY
-	if (SIGKILL == sig && is_key_process(t)) {
+	if (SIGKILL == sig && 0 /* is_key_process removed */) {
 		printk("wake up and will killing key process pid:%d tgid:%d comm:%s \n", t->pid, t->tgid, t->comm);
 	}
 	//endif OPLUS_BUG_STABILITY
@@ -1127,7 +1129,7 @@ static int __send_signal(int sig, struct siginfo *info, struct task_struct *t,
 #ifdef OPLUS_BUG_STABILITY
     if(1) {
         /*add the SIGKILL print log for some debug*/
-        if((sig == SIGHUP || (sig == 33 && strcmp(current->comm, "Signal Catcher")) || sig == SIGKILL || sig == SIGSTOP || sig == SIGABRT || sig == SIGTERM || sig == SIGCONT || sig == SIGQUIT) && is_key_process(t)) {
+        if((sig == SIGHUP || (sig == 33 && strcmp(current->comm, "Signal Catcher")) || sig == SIGKILL || sig == SIGSTOP || sig == SIGABRT || sig == SIGTERM || sig == SIGCONT || sig == SIGQUIT) && 0 /* is_key_process removed */) {
             printk("Some other process %d:%s want to send sig:%d from %s to pid:%d tgid:%d comm:%s  \n", current->pid, current->comm,sig,(info == SEND_SIG_PRIV) ? "kernel":((info == SEND_SIG_NOINFO) ? "user":"default"),t->pid, t->tgid, t->comm);
         }
     }
