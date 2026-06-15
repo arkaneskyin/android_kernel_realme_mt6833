@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_SCHED_ASSIST /* Disable missing proprietary OPlus feature */
 /*
  *  linux/kernel/fork.c
  *
