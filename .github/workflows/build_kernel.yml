@@ -53,15 +53,18 @@ jobs:
           # Enable KernelSU in the defconfig
           echo "CONFIG_KSU=y" >> arch/arm64/configs/cyllene_defconfig
 
-      - name: Fix Missing Proprietary Kconfig Files
+      - name: Fix Missing Proprietary Kconfig and Makefile Stubs
         run: |
           python3 << 'PYEOF'
           import os, re
 
-          stub_content = "# Stub Kconfig - OPlus proprietary feature not in public source\n"
+          kconfig_stub = "# Stub Kconfig - OPlus proprietary feature not in public source\n"
+          makefile_stub = "# Stub Makefile - OPlus proprietary feature not in public source\n"
 
           for root, dirs, files in os.walk('.'):
               dirs[:] = [d for d in dirs if d not in ['.git', 'clang', 'out']]
+
+              # --- Stub missing Kconfig source references ---
               for fname in files:
                   if 'Kconfig' not in fname:
                       continue
@@ -69,12 +72,11 @@ jobs:
                   try:
                       with open(kfile, 'r', errors='ignore') as f:
                           content = f.read()
-                      # Match both quoted: source "path" and unquoted: source path
                       refs = re.findall(r'source\s+"([^"]+)"', content)
                       refs += re.findall(r'source\s+([^"\s][^\s]*Kconfig[^\s]*)', content)
                       for ref in refs:
                           if not os.path.isfile(ref):
-                              print(f"Stubbing: {ref}")
+                              print(f"Stubbing Kconfig: {ref}")
                               parent = os.path.dirname(ref) or '.'
                               if os.path.exists(parent) and not os.path.isdir(parent):
                                   os.remove(parent)
@@ -82,15 +84,35 @@ jobs:
                                   os.unlink(parent)
                               os.makedirs(parent, exist_ok=True)
                               with open(ref, 'w') as stub:
-                                  stub.write(stub_content)
+                                  stub.write(kconfig_stub)
                   except Exception as e:
-                      print(f"Warning: {kfile}: {e}")
+                      print(f"Warning Kconfig {kfile}: {e}")
+
+              # --- Stub missing Makefile subdirectories ---
+              for fname in ['Makefile', 'Kbuild']:
+                  if fname not in files:
+                      continue
+                  mkfile = os.path.join(root, fname)
+                  try:
+                      with open(mkfile, 'r', errors='ignore') as f:
+                          content = f.read()
+                      # Match: obj-y += subdir/ or obj-$(CONFIG_X) += subdir/
+                      for subdir in re.findall(r'obj-[^\s]+\s*\+=\s*([a-zA-Z0-9_\-]+)/', content):
+                          subdir_path = os.path.join(root, subdir)
+                          if not os.path.isdir(subdir_path):
+                              print(f"Stubbing Makefile dir: {subdir_path}")
+                              os.makedirs(subdir_path, exist_ok=True)
+                              with open(os.path.join(subdir_path, 'Makefile'), 'w') as stub:
+                                  stub.write(makefile_stub)
+                  except Exception as e:
+                      print(f"Warning Makefile {mkfile}: {e}")
           PYEOF
 
       - name: Build Kernel
         run: |
           set -x
-          make O=out ARCH=arm64 cyllene_defconfig
+          # Use yes to auto-accept any NEW config prompts
+          yes "" | make O=out ARCH=arm64 cyllene_defconfig
 
           make O=out \
             ARCH=arm64 \
