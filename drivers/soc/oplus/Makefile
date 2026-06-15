@@ -1,1 +1,1 @@
-obj-y  +=  healthinfo/
+# obj-y  +=  healthinfo/ # OPlus proprietary - not in public source
