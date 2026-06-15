@@ -139,4 +139,4 @@ obj-$(CONFIG_DAMON) += damon/
 #endif
 #endif /*defined(OPLUS_FEATURE_MEMLEAK_DETECT)
 
-obj-y += async_shrink_slabd.o
+# obj-y += async_shrink_slabd.o
