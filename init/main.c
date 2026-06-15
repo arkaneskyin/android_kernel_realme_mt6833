@@ -9,7 +9,8 @@
  *  Simplified starting of init:  Michael A. Griffith <grif@acm.org>
  */
 
-#define DEBUG		/* Enable initcall_debug */
+
+#undef OPLUS_FEATURE_PHOENIX /* Disable missing proprietary OPlus feature */
 
 #include <linux/types.h>
 #include <linux/extable.h>
