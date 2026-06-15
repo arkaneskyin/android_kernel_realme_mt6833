@@ -13,7 +13,7 @@
 #include <drm/drmP.h>
 #include <linux/soc/mediatek/mtk-cmdq.h>
 #ifdef OPLUS_BUG_STABILITY
-// #include <soc/oplus/system/oplus_mm_kevent_fb.h>
+#include <soc/oplus/system/oplus_mm_kevent_fb.h>
 #endif
 
 #include "mtk_drm_ddp.h"
