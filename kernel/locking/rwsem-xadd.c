@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_SCHED_ASSIST /* Disable missing proprietary OPlus feature */
 // SPDX-License-Identifier: GPL-2.0
 /* rwsem.c: R/W semaphores: contention handling functions
  *
