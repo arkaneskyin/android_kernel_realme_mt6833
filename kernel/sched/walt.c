@@ -1,4 +1,3 @@
-#undef OPLUS_FEATURE_SCHED_ASSIST /* Disable missing proprietary OPlus feature */
 /*
  * Copyright (c) 2016, The Linux Foundation. All rights reserved.
  *
@@ -32,7 +31,7 @@
 
 #ifdef OPLUS_FEATURE_SCHED_ASSIST
 #include <linux/sched.h>
-#include <linux/sched_assist/sched_assist_common.h>
+/* #include <linux/sched_assist/sched_assist_common.h> */
 #endif /* OPLUS_FEATURE_SCHED_ASSIST */
 
 #define WINDOW_STATS_RECENT		0
