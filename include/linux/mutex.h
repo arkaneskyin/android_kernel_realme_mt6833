@@ -92,7 +92,7 @@ struct mutex_waiter {
 };
 
 #ifdef OPLUS_FEATURE_SCHED_ASSIST
-#include <linux/sched_assist/sched_assist_mutex.h>
+// #include <linux/sched_assist/sched_assist_mutex.h> // OPlus proprietary header missing
 #endif /* OPLUS_FEATURE_SCHED_ASSIST */
 
 #ifdef CONFIG_DEBUG_MUTEXES
