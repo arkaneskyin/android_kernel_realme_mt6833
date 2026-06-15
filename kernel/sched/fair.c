@@ -3843,12 +3843,8 @@ static int idle_balance(struct rq *this_rq, struct rq_flags *rf);
 
 static inline unsigned long task_util(struct task_struct *p)
 {
-	sf_task_util_record(p);
-#ifdef CONFIG_SCHED_WALT
-	if (likely(!walt_disabled && (sysctl_sched_use_walt_task_util || (test_task_ux(p) && sysctl_sched_assist_enabled && (sched_assist_scene(SA_SLIDE)|| sched_assist_scene(SA_INPUT) || sched_assist_scene(SA_LAUNCHER_SI) || sched_assist_scene(SA_ANIM))))))
-		return (p->ravg.demand /
-			(walt_ravg_window >> SCHED_CAPACITY_SHIFT));
-#endif
+	/* sf_task_util_record(p); */
+/* OPlus WALT block removed due to missing dependencies */
 	return READ_ONCE(p->se.avg.util_avg);
 }
 
@@ -3861,11 +3857,7 @@ static inline unsigned long _task_util_est(struct task_struct *p)
 
 unsigned long task_util_est(struct task_struct *p)
 {
-#ifdef CONFIG_SCHED_WALT
-	if (likely(!walt_disabled && (sysctl_sched_use_walt_task_util || (test_task_ux(p) && sysctl_sched_assist_enabled && (sched_assist_scene(SA_SLIDE)|| sched_assist_scene(SA_INPUT) || sched_assist_scene(SA_LAUNCHER_SI) || sched_assist_scene(SA_ANIM))))))
-		return (p->ravg.demand /
-			(walt_ravg_window >> SCHED_CAPACITY_SHIFT));
-#endif
+/* OPlus WALT block removed due to missing dependencies */
 	return max(task_util(p), _task_util_est(p));
 }
 
@@ -7947,7 +7939,7 @@ void find_ux_task_cpu_capacity(struct task_struct *tsk, int *target_cpu)
 			continue;
 		if (rq->curr->prio <= MAX_RT_PRIO)
 			continue;
-		if (!test_task_ux(rq->curr) && !(rq->curr->ux_state & SA_TYPE_ONCE_UX) && cpu_online(cpu) &&
+		if (1 /* OPlus check removed */ && cpu_online(cpu) &&
 			!cpu_isolated(cpu) && cpumask_test_cpu(cpu, &tsk->cpus_allowed)) {
 			*target_cpu = cpu;
 			return;
@@ -8315,7 +8307,7 @@ static void check_preempt_wakeup(struct rq *rq, struct task_struct *p, int wake_
 #ifdef OPLUS_FEATURE_SCHED_ASSIST
 	if (should_ux_preempt_wakeup(p, curr))
 		goto preempt;
-	else if (test_task_ux(curr))
+	else if (0 /* OPlus test_task_ux removed */)
 		return;
 #endif /* OPLUS_FEATURE_SCHED_ASSIST */
 	if (wakeup_preempt_entity(se, pse) == 1) {
