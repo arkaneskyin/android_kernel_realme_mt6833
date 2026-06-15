@@ -10,7 +10,7 @@ obj-$(CONFIG_MTK_HF_TEST_CASE) += test/
 #/*ZengChao, 2020/08/06, Add for oplus sensor type to send some info to scp*/
 # obj-y += oplus_sensor_devinfo/ # OPlus proprietary - not in public source
 #ifneq ($(OPLUS_FEATURE_SENSOR_ALGORITHM),)
-obj-y += oplus_virtual_sensor/
+# obj-y += oplus_virtual_sensor/ # OPlus proprietary - not in public source
 #endif
 #endif //OPLUS_FEATURE_SENSOR
 obj-$(CONFIG_MTK_AP_REAR_SENSOR) += mn29005/
