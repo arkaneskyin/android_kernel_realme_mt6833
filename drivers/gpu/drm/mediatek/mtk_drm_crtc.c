@@ -21,7 +21,7 @@
 #include <linux/sched.h>
 #include <uapi/linux/sched/types.h>
 #ifdef OPLUS_BUG_STABILITY
-// #include <soc/oplus/system/oplus_mm_kevent_fb.h>
+#include <soc/oplus/system/oplus_mm_kevent_fb.h>
 #endif
 
 #include "mtk_drm_arr.h"
