@@ -8025,13 +8025,7 @@ static int instance_rmdir(const char *name)
 
 static __init void create_trace_instances(struct dentry *d_tracer)
 {
-/* #ifdef OPLUS_BUG_STABILITY */
-/* disable ftrace for aging test */
-	if (AGING == get_eng_version()) {
-		pr_info("skip create_trace_instances for aging\n");
-		return;
-	}
-/* #endif */
+/* OPlus aging test code removed */
 
 	trace_instance_dir = tracefs_create_instance_dir("instances", d_tracer,
 							 instance_mkdir,
