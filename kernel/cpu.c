@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_SCHED_ASSIST /* Disable missing proprietary OPlus feature */
 /* CPU control.
  * (C) 2001, 2002, 2003, 2004 Rusty Russell
  *
