@@ -1,3 +1,4 @@
+#undef OPLUS_BUG_STABILITY /* Disable missing proprietary OPlus feature */
 /* SPDX-License-Identifier: GPL-2.0 */
 /*
  * Copyright (c) 2019 MediaTek Inc.
