@@ -133,7 +133,7 @@ extern int mt6360_get_batid_volt(int *volt);
 #include <soc/oplus/device_info.h>
 #include <soc/oplus/system/oplus_project.h>
 #include <linux/gpio.h>
-#include "../../../oplus/oplus_gauge.h"
+// #include "../../../oplus/oplus_gauge.h"
 extern bool is_fuelgauge_apply(void);
 bool is_fuelgauge_apply(void)
 {
