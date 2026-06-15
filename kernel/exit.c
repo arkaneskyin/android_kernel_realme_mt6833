@@ -1,3 +1,4 @@
+#undef OPLUS_BUG_STABILITY /* Disable missing proprietary OPlus feature */
 /*
  *  linux/kernel/exit.c
  *
