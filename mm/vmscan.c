@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_PROCESS_RECLAIM /* Disable missing proprietary OPlus feature */
 // SPDX-License-Identifier: GPL-2.0
 /*
  *  linux/mm/vmscan.c
