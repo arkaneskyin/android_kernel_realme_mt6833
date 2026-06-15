@@ -130,7 +130,7 @@ obj-$(CONFIG_PROCESS_RECLAIM_ENHANCE) += process_mm_reclaim.o
 obj-$(CONFIG_PHYSICAL_ANTI_FRAGMENTATION) += multi_freearea.o
 #endif
 #ifdef OPLUS_FEATURE_HEALTHINFO
-obj-y += healthinfo/
+# obj-y += healthinfo/ # OPlus proprietary - not in public source
 #endif /*OPLUS_FEATURE_HEALTHINFO*/
 
 #if defined(OPLUS_FEATURE_MEMLEAK_DETECT)
