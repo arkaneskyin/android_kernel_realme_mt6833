@@ -1,3 +1,4 @@
+#undef OPLUS_FEATURE_HEALTHINFO
 /*
  * Generic show_mem() implementation
  *
