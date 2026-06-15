@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: GPL-2.0
+﻿# SPDX-License-Identifier: GPL-2.0
 #
 # Block layer core configuration
 #
@@ -249,6 +249,7 @@ source block/Kconfig.iosched
 
 
 #ifdef OPLUS_FEATURE_SCHED_ASSIST
-source block/uxio_first/Kconfig
+# source block/uxio_first/Kconfig # OPlus proprietary - not in public source
 #endif
+
 
